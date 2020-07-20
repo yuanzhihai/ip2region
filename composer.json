@@ -1,0 +1,23 @@
+{
+  "name" : "yzh52521/ip2region",
+  "description" : "ip地址定位库 PHP",
+  "type" : "project",
+  "keywords" : [
+    "ip地址定位库",
+  ],
+  "license" : "MIT",
+  "authors": [
+    {
+      "name": "yzh52521",
+      "email": "yzh52521@gmail.com"
+    }
+  ],
+  "require" : {
+    "php" : ">=5.4.0"
+  },
+  "autoload" : {
+    "psr-4" : {
+      "yzh52521\\" : "src/"
+    }
+  }
+}
