@@ -14,22 +14,21 @@ _城市Id|国家|区域|省份|城市|ISP_
 ###查询速度快
 全部的查询客户端单次查询都在0.x毫秒级别，内置了三种查询算法
 
-### Composer 安装
+### Composer 安装组件
 ```
 composer require yzh52521/ip2region
 ```
-### ip2region 使用
+### ip2region 使用范例
 ```
 $ip2region = new \yzh52521\Ip2Region();
 
-$ip = '101.105.35.57';
 
-$info = $ip2region->btreeSearch($ip);
+$info = $ip2region->btreeSearch('223.104.148.63');
 
 var_dump($info, true);
 
 // array (
-//     'city_id' => 2163,
-//     'region' => '中国|华南|广东省|深圳市|鹏博士',
+//     'city_id' => 1015,
+//     'region' => 中国|0|江苏省|南京市|移动
 // )
 ```
