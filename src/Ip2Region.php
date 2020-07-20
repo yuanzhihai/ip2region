@@ -56,7 +56,7 @@ class Ip2Region
      *
      * @param string $ip
      * @return array|null
-     * @throws Exception
+     * @throws \Exception
      */
     public function memorySearch($ip)
     {
@@ -64,7 +64,7 @@ class Ip2Region
         if ($this->dbBinStr == null) {
             $this->dbBinStr = file_get_contents($this->dbFile);
             if ($this->dbBinStr == false) {
-                throw new Exception("Fail to open the db file {$this->dbFile}");
+                throw new \Exception("Fail to open the db file {$this->dbFile}");
             }
             $this->firstIndexPtr = self::getLong($this->dbBinStr, 0);
             $this->lastIndexPtr  = self::getLong($this->dbBinStr, 4);
@@ -111,7 +111,7 @@ class Ip2Region
      *
      * @param string ip
      * @return mixed Array or NULL for any error
-     * @throws Exception
+     * @throws \Exception
      */
     public function binarySearch($ip)
     {
@@ -124,7 +124,7 @@ class Ip2Region
             if ($this->dbFileHandler == null) {
                 $this->dbFileHandler = fopen($this->dbFile, 'r');
                 if ($this->dbFileHandler == false) {
-                    throw new Exception("Fail to open the db file {$this->dbFile}");
+                    throw new \Exception("Fail to open the db file {$this->dbFile}");
                 }
             }
             fseek($this->dbFileHandler, 0);
@@ -176,7 +176,7 @@ class Ip2Region
      *
      * @param string ip
      * @return  Mixed Array for NULL for any error
-     * @throws Exception
+     * @throws \Exception
      */
     public function btreeSearch($ip)
     {
@@ -189,7 +189,7 @@ class Ip2Region
             if ($this->dbFileHandler == null) {
                 $this->dbFileHandler = fopen($this->dbFile, 'r');
                 if ($this->dbFileHandler == false) {
-                    throw new Exception("Fail to open the db file {$this->dbFile}");
+                    throw new \Exception("Fail to open the db file {$this->dbFile}");
                 }
             }
             fseek($this->dbFileHandler, 8);
@@ -239,7 +239,9 @@ class Ip2Region
                     $sptr = $this->HeaderPtr[$m];
                     $eptr = $this->HeaderPtr[$m + 1];
                     break;
-                } elseif ($ip > $this->HeaderSip[$m - 1]) {
+                }
+
+                if ($ip > $this->HeaderSip[$m - 1]) {
                     $sptr = $this->HeaderPtr[$m - 1];
                     $eptr = $this->HeaderPtr[$m];
                     break;
@@ -250,7 +252,9 @@ class Ip2Region
                     $sptr = $this->HeaderPtr[$m - 1];
                     $eptr = $this->HeaderPtr[$m];
                     break;
-                } elseif ($ip <= $this->HeaderSip[$m + 1]) {
+                }
+
+                if ($ip <= $this->HeaderSip[$m + 1]) {
                     $sptr = $this->HeaderPtr[$m];
                     $eptr = $this->HeaderPtr[$m + 1];
                     break;
