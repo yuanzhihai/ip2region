@@ -1,5 +1,7 @@
 # ip2region
-ip2region - 准确率99.9%的离线IP地址定位库，0.0x毫秒级查询，ip2region.db数据库只有数MB，绑定和Binary,B树,内存三种查询算法。
+
+基于ip2region开发 准确率99.9%的离线IP地址定位库，
+
 ### 标准化的数据格式
 每条ip数据段都固定了格式：
 ```
@@ -13,6 +15,10 @@ _城市Id|国家|区域|省份|城市|ISP_
 
 ###查询速度快
 全部的查询客户端单次查询都在0.x毫秒级别，内置了三种查询算法
+### 修改
+代码调整后，符合PSR2规范要求
+去除全局常量定义，改为类的const变量
+增加静态调用方法
 
 ### Composer 安装组件
 ```
@@ -20,12 +26,16 @@ composer require yzh52521/ip2region
 ```
 ### ip2region 使用范例
 ```
-$ip2region = new \yzh52521\Ip2Region();
+实例化调用
+IpRegion = new \yzh52521\Ip2Region();
 
-
-$info = $ip2region->btreeSearch('223.104.148.63');
-
+$info = IpRegion->btreeSearch('223.104.148.63');
 var_dump($info, true);
+
+静态方法调用
+
+var_dump(IpRegion::search('223.104.148.63'));
+var_dump(IpRegion::search('223.104.148.63', 'memory'));
 
 // array (
 //     'city_id' => 1015,

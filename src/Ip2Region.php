@@ -1,14 +1,13 @@
 <?php
+
 namespace yzh52521;
+
 /**
  * ip2region php seacher client class
  *
  * @author  chenxin<chenxin619315@gmail.com>
  * @date    2015-10-29
  */
-
-defined('INDEX_BLOCK_LENGTH') or define('INDEX_BLOCK_LENGTH', 12);
-defined('TOTAL_HEADER_LENGTH') or define('TOTAL_HEADER_LENGTH', 8192);
 
 class Ip2Region
 {
@@ -37,6 +36,9 @@ class Ip2Region
      */
     private $dbBinStr = null;
     private $dbFile = null;
+
+    const INDEX_BLOCK_LENGTH = 12;
+    const TOTAL_HEADER_LENGTH = 8192;
 
     /**
      * construct method
@@ -68,7 +70,7 @@ class Ip2Region
             }
             $this->firstIndexPtr = self::getLong($this->dbBinStr, 0);
             $this->lastIndexPtr  = self::getLong($this->dbBinStr, 4);
-            $this->totalBlocks   = ($this->lastIndexPtr - $this->firstIndexPtr) / INDEX_BLOCK_LENGTH + 1;
+            $this->totalBlocks   = ($this->lastIndexPtr - $this->firstIndexPtr) / self::INDEX_BLOCK_LENGTH + 1;
         }
         if (is_string($ip)) {
             $ip = self::safeIp2long($ip);
@@ -79,7 +81,7 @@ class Ip2Region
         $dataPtr = 0;
         while ($l <= $h) {
             $m   = (($l + $h) >> 1);
-            $p   = $this->firstIndexPtr + $m * INDEX_BLOCK_LENGTH;
+            $p   = $this->firstIndexPtr + $m * self::INDEX_BLOCK_LENGTH;
             $sip = self::getLong($this->dbBinStr, $p);
             if ($ip < $sip) {
                 $h = $m - 1;
@@ -131,7 +133,7 @@ class Ip2Region
             $superBlock          = fread($this->dbFileHandler, 8);
             $this->firstIndexPtr = self::getLong($superBlock, 0);
             $this->lastIndexPtr  = self::getLong($superBlock, 4);
-            $this->totalBlocks   = ($this->lastIndexPtr - $this->firstIndexPtr) / INDEX_BLOCK_LENGTH + 1;
+            $this->totalBlocks   = ($this->lastIndexPtr - $this->firstIndexPtr) / self::INDEX_BLOCK_LENGTH + 1;
         }
         //binary search to define the data
         $l       = 0;
@@ -139,9 +141,9 @@ class Ip2Region
         $dataPtr = 0;
         while ($l <= $h) {
             $m = (($l + $h) >> 1);
-            $p = $m * INDEX_BLOCK_LENGTH;
+            $p = $m * self::INDEX_BLOCK_LENGTH;
             fseek($this->dbFileHandler, $this->firstIndexPtr + $p);
-            $buffer = fread($this->dbFileHandler, INDEX_BLOCK_LENGTH);
+            $buffer = fread($this->dbFileHandler, self::INDEX_BLOCK_LENGTH);
             $sip    = self::getLong($buffer, 0);
             if ($ip < $sip) {
                 $h = $m - 1;
@@ -193,13 +195,13 @@ class Ip2Region
                 }
             }
             fseek($this->dbFileHandler, 8);
-            $buffer = fread($this->dbFileHandler, TOTAL_HEADER_LENGTH);
+            $buffer = fread($this->dbFileHandler, self::TOTAL_HEADER_LENGTH);
 
             //fill the header
             $idx             = 0;
             $this->HeaderSip = [];
             $this->HeaderPtr = [];
-            for ($i = 0; $i < TOTAL_HEADER_LENGTH; $i += 8) {
+            for ($i = 0; $i < self::TOTAL_HEADER_LENGTH; $i += 8) {
                 $startIp = self::getLong($buffer, $i);
                 $dataPtr = self::getLong($buffer, $i + 4);
                 if ($dataPtr == 0) {
@@ -271,14 +273,14 @@ class Ip2Region
         //2. search the index blocks to define the data
         $blockLen = $eptr - $sptr;
         fseek($this->dbFileHandler, $sptr);
-        $index = fread($this->dbFileHandler, $blockLen + INDEX_BLOCK_LENGTH);
+        $index = fread($this->dbFileHandler, $blockLen + self::INDEX_BLOCK_LENGTH);
 
         $dataPtr = 0;
         $l       = 0;
-        $h       = $blockLen / INDEX_BLOCK_LENGTH;
+        $h       = $blockLen / self::INDEX_BLOCK_LENGTH;
         while ($l <= $h) {
             $m   = (($l + $h) >> 1);
-            $p   = (int)($m * INDEX_BLOCK_LENGTH);
+            $p   = (int)($m * self::INDEX_BLOCK_LENGTH);
             $sip = self::getLong($index, $p);
             if ($ip < $sip) {
                 $h = $m - 1;
@@ -347,6 +349,21 @@ class Ip2Region
             $val = sprintf("%u", $val);
         }
         return $val;
+    }
+
+    public static function __callStatic($method, $args)
+    {
+        $ipRegion = new self();
+        switch ($method) {
+            case 'search':
+                $algorithm = isset($args[1]) ? $args[1] : 'btree';
+                $method = $algorithm . ucfirst($method);
+                return call_user_func([$ipRegion, $method], $args[0]);
+                break;
+            default:
+                throw new \Exception('No support static method');
+                break;
+        }
     }
 
     /**
