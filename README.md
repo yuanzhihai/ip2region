@@ -1,6 +1,6 @@
 # ip2region
 
-基于ip2region(https://github.com/lionsoul2014/ip2region)开发 准确率99.9%的离线IP地址定位库，
+基于[ip2region](https://github.com/lionsoul2014/ip2region)开发 准确率99.9%的离线IP地址定位库，
 
 ### 标准化的数据格式
 每条ip数据段都固定了格式：
