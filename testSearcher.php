@@ -24,8 +24,8 @@ if ( isset($argv[1]) ) {
     }
 }
 
-require 'Ip2Region.php';
-$ip2regionObj = new Ip2Region($dbFile);
+require 'src/Ip2Region.php';
+$ip2regionObj = new \yzh52521\Ip2Region($dbFile);
 
 $initStr = <<<INIT
 initializing  {$algorithm} ... 
