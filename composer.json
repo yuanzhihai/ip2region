@@ -3,7 +3,7 @@
   "description" : "ip地址定位库 PHP",
   "type" : "project",
   "keywords" : [
-    "ip地址定位库",
+    "ip地址定位库"
   ],
   "license" : "MIT",
   "authors": [
