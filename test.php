@@ -1,5 +1,7 @@
 <?php
-require 'src/Ip2Region.php';
+
+use yzh52521\Ip2Region;
+
 $ip2region = new Ip2Region();
 $ip = '61.140.232.170';
 echo PHP_EOL;
