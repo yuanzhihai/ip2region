@@ -17,7 +17,7 @@ _城市Id|国家|区域|省份|城市|ISP_
 2. binary算法：基于二分查找，基于ip2region.db文件，不需要载入内存，单次查询在0.x毫秒级别。
 3. b-tree算法：基于btree算法，基于ip2region.db文件，不需要载入内存，单词查询在0.x毫秒级别，比binary算法更快。
 
-###Composer 安装
+#Composer 安装
 ```
 composer require yzh52521/ip2region
 ```
