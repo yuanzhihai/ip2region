@@ -14,11 +14,11 @@ _城市Id|国家|区域|省份|城市|ISP_
 ###查询速度快
 全部的查询客户端单次查询都在0.x毫秒级别，内置了三种查询算法
 
-###Composer 安装
+### Composer 安装
 ```
 composer require yzh52521/ip2region
 ```
-###ip2region 使用
+### ip2region 使用
 ```
 $ip2region = new \yzh52521\Ip2Region();
 
