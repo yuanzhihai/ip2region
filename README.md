@@ -11,17 +11,14 @@ _城市Id|国家|区域|省份|城市|ISP_
 
 包含了全部的IP，生成的数据库文件ip2region.db只有几MB，最小的版本只有1.5MB，随着数据的详细度增加数据库的大小也慢慢增大，目前还没超过8MB。
 
-#查询速度快
+###查询速度快
 全部的查询客户端单次查询都在0.x毫秒级别，内置了三种查询算法
-1. memory算法：整个数据库全部载入内存，单次查询都在0.1x毫秒内，C语言的客户端单次查询在0.00x毫秒级别。
-2. binary算法：基于二分查找，基于ip2region.db文件，不需要载入内存，单次查询在0.x毫秒级别。
-3. b-tree算法：基于btree算法，基于ip2region.db文件，不需要载入内存，单词查询在0.x毫秒级别，比binary算法更快。
 
-#Composer 安装
+###Composer 安装
 ```
 composer require yzh52521/ip2region
 ```
-#ip2region 使用
+###ip2region 使用
 ```
 $ip2region = new \yzh52521\Ip2Region();
 
