@@ -26,7 +26,7 @@
 use yzh52521\XdbSearcher;
 
 $ip = '1.2.3.4';
-$xdb = './data/ip2region.xdb';
+$xdb = "/vendor/yzh52521/ip2region/data/ip2region.xdb";
 try {
     $region = XdbSearcher::newWithFileOnly($xdb)->search($ip);
     var_dump($region);
@@ -46,7 +46,7 @@ vectorIndex，可以减少一次固定的 IO 操作从而加速查询，减少 i
 use yzh52521\XdbSearcher;
 
 $ip = '1.2.3.4';
-$xdb = './data/ip2region.xdb';
+$xdb = "/vendor/yzh52521/ip2region/data/ip2region.xdb";
 try {
     // 1、加载 VectorIndex 缓存，把下述的 vIndex 变量缓存到内存里面。
     $vIndex = XdbSearcher::loadVectorFromFile($xdb);
@@ -73,7 +73,7 @@ throw new \RuntimeException("failed to load vector index from '$xdb'.");
 use yzh52521\XdbSearcher;
 
 $ip = '1.2.3.4';
-$xdb = './data/ip2region.xdb';
+$xdb = "/vendor/yzh52521/ip2region/data/ip2region.xdb";
 try {
     // 1、加载整个 xdb 到内存。
     $cBuff = XdbSearcher::loadContentFromFile($xdb);
