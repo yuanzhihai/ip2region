@@ -1,7 +1,6 @@
 {
   "name" : "yzh52521/ip2region",
-  "description" : "ip地址定位库 PHP",
-  "type" : "project",
+  "description": "Ip2region (2.0 - xdb) is a offline IP address manager framework and locator with ten microsecond searching performance. xdb engine implementation for many programming languages\n\n",  "type" : "project",
   "keywords" : [
     "ip地址定位库"
   ],
@@ -13,7 +12,7 @@
     }
   ],
   "require" : {
-    "php" : ">=5.4.0"
+    "php" : ">=7.1"
   },
   "autoload" : {
     "psr-4" : {
